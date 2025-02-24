@@ -1,5 +1,19 @@
 from tkinter import *
 
+is_running = False  # Флаг, запущен ли таймер
+timer_id = None
+def toggle_timer():
+    global is_running, timer_id
+    if is_running:
+        is_running = False
+        if timer_id is not None:
+            root.after_cancel(timer_id)
+            timer_id = None
+        start_button.config(text="Старт")
+    else:
+        is_running = True
+        start_button.config(text="Пауза")
+
 # Создаем главное окно приложения
 root = Tk()
 root.geometry('500x500')  # Устанавливаем размер окна
@@ -27,9 +41,15 @@ time_label = Label(master=main_frame, text='25:00', font=(font_style, 60))
 time_label.grid(row=1, column=0, columnspan=2)  # Размещаем метку во второй строке, растягиваем на два столбца
 
 # Кнопка "Старт" для запуска таймера
-start_button = Button(master=main_frame, text='start', width=10, font=(font_style, 20))
+start_button = Button(master=main_frame, text='start', width=10, font=(font_style, 20), command=toggle_timer)
 start_button.grid(row=2, column=0, columnspan=2)  # Размещаем кнопку в третьей строке, растягиваем на два столбца
 
+# Дополнительные кнопки
+sound_button = Button(main_frame, text="Звук", font=(font_style, 14), width=10)
+sound_button.grid(row=3, column=0, pady=10, padx=10)
+
+task_button = Button(main_frame, text="Банк заданий", font=(font_style, 14), width=10)
+task_button.grid(row=3, column=1, pady=10, padx=10)
 # Запускаем главный цикл обработки событий
 root.mainloop()
 
